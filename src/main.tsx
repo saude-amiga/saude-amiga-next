@@ -9,6 +9,7 @@ import Contraste from './routes/Contraste/index.tsx'
 import Texto from './routes/Texto/index.tsx'
 import Leitor from './routes/Leitor/index.tsx'
 import Libras from './routes/Libras/index.tsx'
+import { ThemeProvider } from './contexts/ThemeContext.tsx'
 
 const router = createBrowserRouter([
   {path:"/", element:<App/>, errorElement:<Error/>, children:[
@@ -21,6 +22,8 @@ const router = createBrowserRouter([
 ])
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <RouterProvider router={router}/>
+    <ThemeProvider>
+      <RouterProvider router={router}/>
+    </ThemeProvider>
   </StrictMode>,
 )
