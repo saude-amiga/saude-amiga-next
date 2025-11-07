@@ -190,3 +190,24 @@ main {
 .footer-links a:hover {
   text-decoration: underline;
 }
+
+.contrast-toggle {
+  padding: 0.5rem 1.2rem;
+  background-color: #0077ff;
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  font-weight: 500;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.contrast-toggle:hover {
+  background-color: #005fcc;
+  transform: scale(1.05);
+}
+
+.contrast-toggle:active {
+  transform: scale(0.98);
+}
