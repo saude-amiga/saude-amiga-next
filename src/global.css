@@ -16,3 +16,45 @@ body, html {
   font-family: sans-serif;
   transition: background-color 0.3s, color 0.3s;
 }
+
+.error-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  text-align: center;
+}
+
+.error-content {
+  max-width: 500px;
+  padding: 2rem;
+  border-radius: 12px;
+  background-color: var(--card-bg);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.error-content h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.error-content p {
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+}
+
+.error-button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #0077ff;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+}
+
+.error-button:hover {
+  background-color: #005fcc;
+}
