@@ -20,6 +20,7 @@ export default function Leitor() {
   const [suporte, setSuporte] = useState(true);
   const recognitionRef = useRef<SpeechRecognition | null>(null);
   const textoFinalRef = useRef("");
+  const textoTempRef = useRef("");
 
   useEffect(() => {
     const SpeechRecognition =
@@ -32,11 +33,12 @@ export default function Leitor() {
 
     const recognition = new SpeechRecognition();
     recognition.lang = "pt-BR";
-    recognition.interimResults = false;
+    recognition.interimResults = true;
     recognition.continuous = true;
 
     recognition.onresult = (event: any) => {
       let textoFinal = textoFinalRef.current;
+      let textoTemp = "";
 
       for (let i = event.resultIndex; i < event.results.length; i++) {
         const result = event.results[i];
@@ -44,11 +46,14 @@ export default function Leitor() {
 
         if (result.isFinal) {
           textoFinal += " " + transcrito;
+        } else {
+          textoTemp += " " + transcrito;
         }
       }
 
       textoFinalRef.current = textoFinal.trim();
-      setTexto(textoFinalRef.current);
+      textoTempRef.current = textoTemp.trim();
+      setTexto((textoFinalRef.current + " " + textoTempRef.current).trim());
     };
 
     recognition.onerror = (event: any) => {
@@ -81,11 +86,13 @@ export default function Leitor() {
     try {
       if (ouvindo) {
         recognitionRef.current.stop();
-        setOuvindo(false);
       } else {
+        textoFinalRef.current = "";
+        textoTempRef.current = "";
+        setTexto("");
         recognitionRef.current.start();
-        setOuvindo(true);
       }
+      setOuvindo(!ouvindo);
     } catch (error: any) {
       console.error("Erro ao alternar reconhecimento:", error);
     }
@@ -94,6 +101,7 @@ export default function Leitor() {
   const limparTexto = () => {
     setTexto("");
     textoFinalRef.current = "";
+    textoTempRef.current = "";
   };
 
   return (
@@ -157,10 +165,7 @@ export default function Leitor() {
       )}
 
       <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
-        <button
-          onClick={lerTexto}
-          style={estiloBotao("#0077ff")}
-        >
+        <button onClick={lerTexto} style={estiloBotao("#0077ff")}>
           <FaVolumeUp />
           Ler em voz alta
         </button>
@@ -174,10 +179,7 @@ export default function Leitor() {
           {!suporte ? "Não suportado" : ouvindo ? "Parar" : "Falar"}
         </button>
 
-        <button
-          onClick={limparTexto}
-          style={estiloBotao("#ff6600")}
-        >
+        <button onClick={limparTexto} style={estiloBotao("#ff6600")}>
           🧹 Limpar texto
         </button>
       </div>
