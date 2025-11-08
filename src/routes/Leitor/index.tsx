@@ -11,16 +11,15 @@ declare global {
 type SpeechRecognition = any;
 
 export default function Leitor() {
-
   useEffect(() => {
     document.title = "Leitor";
   }, []);
+
   const [texto, setTexto] = useState("");
   const [ouvindo, setOuvindo] = useState(false);
   const [suporte, setSuporte] = useState(true);
   const recognitionRef = useRef<SpeechRecognition | null>(null);
   const textoFinalRef = useRef("");
-  const textoTempRef = useRef("");
 
   useEffect(() => {
     const SpeechRecognition =
@@ -33,12 +32,11 @@ export default function Leitor() {
 
     const recognition = new SpeechRecognition();
     recognition.lang = "pt-BR";
-    recognition.interimResults = true;
+    recognition.interimResults = false;
     recognition.continuous = true;
 
     recognition.onresult = (event: any) => {
       let textoFinal = textoFinalRef.current;
-      let textoTemp = "";
 
       for (let i = event.resultIndex; i < event.results.length; i++) {
         const result = event.results[i];
@@ -46,14 +44,11 @@ export default function Leitor() {
 
         if (result.isFinal) {
           textoFinal += " " + transcrito;
-        } else {
-          textoTemp += " " + transcrito;
         }
       }
 
       textoFinalRef.current = textoFinal.trim();
-      textoTempRef.current = textoTemp.trim();
-      setTexto((textoFinalRef.current + " " + textoTempRef.current).trim());
+      setTexto(textoFinalRef.current);
     };
 
     recognition.onerror = (event: any) => {
@@ -68,8 +63,12 @@ export default function Leitor() {
   }, []);
 
   const lerTexto = () => {
-    const textoParaLer = texto.trim();
+    const textoParaLer = textoFinalRef.current.trim();
     if (!textoParaLer) return;
+
+    if (speechSynthesis.speaking) {
+      speechSynthesis.cancel();
+    }
 
     const utterance = new SpeechSynthesisUtterance(textoParaLer);
     utterance.lang = "pt-BR";
@@ -95,7 +94,6 @@ export default function Leitor() {
   const limparTexto = () => {
     setTexto("");
     textoFinalRef.current = "";
-    textoTempRef.current = "";
   };
 
   return (
@@ -149,7 +147,6 @@ export default function Leitor() {
             backgroundColor: "var(--bg-color)",
             borderRadius: "8px",
             border: "1px solid #ccc",
-            resize: "none",
             marginBottom: "1rem",
             whiteSpace: "pre-wrap",
             textAlign: "left",
@@ -163,14 +160,6 @@ export default function Leitor() {
         <button
           onClick={lerTexto}
           style={estiloBotao("#0077ff")}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.transform = "scale(1.05)";
-            e.currentTarget.style.boxShadow = "0 4px 8px rgba(0,0,0,0.3)";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = "scale(1)";
-            e.currentTarget.style.boxShadow = "0 2px 6px rgba(0,0,0,0.2)";
-          }}
         >
           <FaVolumeUp />
           Ler em voz alta
@@ -180,16 +169,6 @@ export default function Leitor() {
           onClick={alternarReconhecimento}
           disabled={!suporte}
           style={estiloBotao(!suporte ? "#cc0000" : ouvindo ? "#999" : "#28a745", !suporte)}
-          onMouseEnter={(e) => {
-            if (suporte) {
-              e.currentTarget.style.transform = "scale(1.05)";
-              e.currentTarget.style.boxShadow = "0 4px 8px rgba(0,0,0,0.3)";
-            }
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = "scale(1)";
-            e.currentTarget.style.boxShadow = "0 2px 6px rgba(0,0,0,0.2)";
-          }}
         >
           {!suporte ? <FaTimes /> : <FaMicrophone />}
           {!suporte ? "Não suportado" : ouvindo ? "Parar" : "Falar"}
@@ -198,14 +177,6 @@ export default function Leitor() {
         <button
           onClick={limparTexto}
           style={estiloBotao("#ff6600")}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.transform = "scale(1.05)";
-            e.currentTarget.style.boxShadow = "0 4px 8px rgba(0,0,0,0.3)";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = "scale(1)";
-            e.currentTarget.style.boxShadow = "0 2px 6px rgba(0,0,0,0.2)";
-          }}
         >
           🧹 Limpar texto
         </button>
