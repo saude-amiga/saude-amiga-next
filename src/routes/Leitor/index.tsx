@@ -80,22 +80,25 @@ export default function Leitor() {
     speechSynthesis.speak(utterance);
   };
 
-  const alternarReconhecimento = () => {
-    if (!recognitionRef.current) return;
+const alternarReconhecimento = () => {
+  const recognition = recognitionRef.current;
+  if (!recognition) return;
 
-    try {
-      if (ouvindo) {
-        recognitionRef.current.stop();
-        setOuvindo(false);
-      } else {
-        recognitionRef.current.start();
-        setOuvindo(true);
-      }
-    } catch (error: any) {
+  try {
+    if (ouvindo) {
+      recognition.stop();
+    } else {
+      recognition.start();
+      setOuvindo(true);
+    }
+  } catch (error: any) {
+    if (error.name === "InvalidStateError") {
+      console.warn("Reconhecimento já está ativo.");
+    } else {
       console.error("Erro ao alternar reconhecimento:", error);
     }
-  };
-
+  }
+};
 
   const limparTexto = () => {
     setTexto("");
