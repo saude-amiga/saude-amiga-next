@@ -2,9 +2,10 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 export default function Home() {
-    useEffect(() => {
-      document.title = "Página Inicial";
-    }, []);
+  useEffect(() => {
+    document.title = "Página Inicial";
+  }, []);
+
   return (
     <div
       style={{
@@ -19,9 +20,21 @@ export default function Home() {
         color: "var(--user-font-color)",
       }}
     >
+      <p style={{ marginBottom: "1rem", lineHeight: "1.6" }}>
+        Agradecemos pelo interesse no nosso projeto <strong>Saúde Amiga</strong>! Este site é um protótipo de algumas das funcionalidades disponíveis do futuro aplicativo. Estamos focados em oferecer a melhor experiência de acessibilidade para todos os públicos. Sinta-se à vontade para explorar e conversar com a gente!
+      </p>
+
       <h1 style={{ marginBottom: "1.5rem" }}>🏠 Página Inicial</h1>
 
-      <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: "1rem" }}>
+      <ul
+        style={{
+          listStyle: "none",
+          padding: 0,
+          display: "flex",
+          flexDirection: "column",
+          gap: "1rem",
+        }}
+      >
         <li>
           <Link to="/contraste" style={estiloLink}>
             🌗 Página de Contraste
