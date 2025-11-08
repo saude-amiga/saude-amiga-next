@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FaPlus, FaMinus, FaPalette, FaFont, FaTextHeight, FaSun, FaMoon, FaUndo } from "react-icons/fa";
+import { FaPlus, FaMinus, FaPalette, FaFont, FaTextHeight, FaSun, FaMoon, FaUndo, FaEye } from "react-icons/fa";
 import { useTheme } from "../../contexts/ThemeContext";
 
 export default function Texto() {
@@ -75,11 +75,15 @@ export default function Texto() {
         {
             label: "Modo Daltônico",
             value: "#ffcc00",
+            icon: <FaEye />,
             style: {
                 backgroundColor: "#ffcc00",
                 border: "2px dashed #333",
+                color: "#000",
+                fontSize: "1.2rem",
             },
-        },
+        }
+
     ];
 
     return (
@@ -126,9 +130,24 @@ export default function Texto() {
                                 height: "40px",
                                 borderRadius: "6px",
                                 cursor: "pointer",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                transition: "transform 0.2s ease, box-shadow 0.2s ease",
+                                boxShadow: "0 2px 4px rgba(0,0,0,0.2)",
+                                transform: value === fontColor ? "scale(1.1)" : "scale(1)",
                                 border: value === fontColor ? "3px solid var(--user-font-color)" : "none",
-                                ...style
+                                ...style,
                             }}
+                            onMouseEnter={(e) => {
+                                e.currentTarget.style.transform = "scale(1.1)";
+                                e.currentTarget.style.boxShadow = "0 4px 8px rgba(0,0,0,0.3)";
+                            }}
+                            onMouseLeave={(e) => {
+                                e.currentTarget.style.transform = value === fontColor ? "scale(1.1)" : "scale(1)";
+                                e.currentTarget.style.boxShadow = "0 2px 4px rgba(0,0,0,0.2)";
+                            }}
+
                         >
                             {icon}
                         </button>
