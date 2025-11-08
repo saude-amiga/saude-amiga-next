@@ -35,17 +35,23 @@ export default function Guias() {
       </div>
 
       <div className="grow flex justify-center items-center">
-        <span ref={emojiRef} className="text-9xl">🎯</span>
+        <span
+          ref={emojiRef}
+          className="text-9xl cursor-pointer"
+          onClick={() => setMostrarPing(false)}
+        >
+          🎯
+        </span>
       </div>
 
       {mostrarPing && posicao && (
         <div
           className="absolute animate-ping rounded-full bg-blue-600 opacity-60 pointer-events-none"
           style={{
-            top: posicao.top + posicao.height / 2 - 75,
-            left: posicao.left + posicao.width / 2 - 85,
-            width: 150,
-            height: 150,
+            top: posicao.top + posicao.height / 2 - 150,
+            left: posicao.left + posicao.width / 2 - 150,
+            width: 300,
+            height: 300,
           }}
         />
       )}
