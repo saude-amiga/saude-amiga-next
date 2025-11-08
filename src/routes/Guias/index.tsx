@@ -6,6 +6,7 @@ export default function Guias() {
   const [posicao, setPosicao] = useState<{ top: number; left: number; width: number; height: number } | null>(null);
   const [mostrarPing, setMostrarPing] = useState(false);
   const [mostrarBlur, setMostrarBlur] = useState(false);
+  const [mostrarBorda, setMostrarBorda] = useState(false);
 
   useEffect(() => {
     if (emojiRef.current && containerRef.current) {
@@ -18,7 +19,7 @@ export default function Guias() {
         height: emojiRect.height,
       });
     }
-  }, [mostrarPing, mostrarBlur]);
+  }, [mostrarPing, mostrarBlur, mostrarBorda]);
 
   return (
     <div ref={containerRef} className="h-screen flex flex-col relative overflow-hidden">
@@ -35,7 +36,12 @@ export default function Guias() {
         >
           Botão 2
         </button>
-        <button className="px-4 py-2 bg-red-600 text-white rounded w-40 text-center">Botão 3</button>
+        <button
+          className="px-4 py-2 bg-red-600 text-white rounded w-40 text-center"
+          onClick={() => setMostrarBorda(true)}
+        >
+          Botão 3
+        </button>
         <button className="px-4 py-2 bg-yellow-500 text-black rounded w-40 text-center">Botão 4</button>
         <button className="px-4 py-2 bg-purple-600 text-white rounded w-40 text-center">Botão 5</button>
       </div>
@@ -47,6 +53,7 @@ export default function Guias() {
           onClick={() => {
             setMostrarPing(false);
             setMostrarBlur(false);
+            setMostrarBorda(false);
           }}
         >
           🎯
@@ -81,6 +88,20 @@ export default function Guias() {
             }}
           />
         </>
+      )}
+
+      {mostrarBorda && posicao && (
+        <div
+          className="absolute z-10 pointer-events-none"
+          style={{
+            top: posicao.top + posicao.height / 2 - 140,
+            left: posicao.left + posicao.width / 2 - 140,
+            width: 280,
+            height: 280,
+            borderRadius: "50%",
+            border: "10px solid red",
+          }}
+        />
       )}
     </div>
   );
