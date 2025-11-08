@@ -49,19 +49,19 @@ export default function Guias() {
     <div ref={containerRef} className="h-screen flex flex-col relative overflow-hidden">
       <div className="flex flex-col sm:flex-row justify-center items-center gap-4 pt-4">
         <button className={`${botaoBase} bg-blue-600 text-white`} onClick={() => setMostrarPing(true)}>
-          Botão 1
+          Pulsar
         </button>
         <button className={`${botaoBase} bg-green-600 text-white`} onClick={() => setMostrarBlur(true)}>
-          Botão 2
+          Focar
         </button>
         <button className={`${botaoBase} bg-red-600 text-white`} onClick={() => setMostrarBorda(true)}>
-          Botão 3
+          Circular
         </button>
         <button className={`${botaoBase} bg-yellow-500 text-black`} onClick={() => setMostrarExplosao(true)}>
-          Botão 4
+          Biribinhas
         </button>
         <button ref={botao5Ref} className={`${botaoBase} bg-purple-600 text-white`} onClick={iniciarCaminho}>
-          Botão 5
+          Caminho
         </button>
       </div>
 
