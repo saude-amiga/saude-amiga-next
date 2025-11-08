@@ -11,6 +11,7 @@ import Leitor from './routes/Leitor/index.tsx'
 import Libras from './routes/Libras/index.tsx'
 import { ThemeProvider } from './contexts/ThemeContext.tsx'
 import { applyUserTextSettings } from './utils/applyUserTextSettings.ts'
+import Guias from './routes/Guias/index.tsx'
 
 applyUserTextSettings();
 
@@ -20,7 +21,8 @@ const router = createBrowserRouter([
     {path:"/contraste", element:<Contraste/>},
     {path:"/texto", element:<Texto/>},
     {path:"/leitor", element:<Leitor/>},
-    {path:"/libras", element:<Libras/>}
+    {path:"/libras", element:<Libras/>},
+    {path:"/guias", element:<Guias/>}
   ]}
 ])
 

@@ -38,6 +38,11 @@ export default function Home() {
             🧏 Página Libras
           </Link>
         </li>
+        <li>
+          <Link to="/guias" style={estiloLink}>
+            📘 Guias de Acessibilidade
+          </Link>
+        </li>
       </ul>
     </div>
   );

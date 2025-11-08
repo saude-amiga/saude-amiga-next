@@ -25,6 +25,7 @@ export default function Header() {
                     <Link to="/texto" onClick={() => setMenuOpen(false)}>Texto</Link>
                     <Link to="/leitor" onClick={() => setMenuOpen(false)}>Leitor</Link>
                     <Link to="/libras" onClick={() => setMenuOpen(false)}>Libras</Link>
+                    <Link to="/guias" onClick={() => setMenuOpen(false)}>Guias</Link>
                     <button
                         onClick={() => {
                             toggleTheme();
