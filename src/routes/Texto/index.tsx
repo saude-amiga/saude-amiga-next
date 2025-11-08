@@ -1,21 +1,26 @@
 import { useEffect, useState } from "react";
+import { FaPlus, FaMinus, FaPalette, FaFont, FaTextHeight, FaSun, FaMoon, FaUndo } from "react-icons/fa";
+import { useTheme } from "../../contexts/ThemeContext";
 
 export default function Texto() {
-    const [fontSize, setFontSize] = useState(16);
-    const [fontColor, setFontColor] = useState("default");
-    const [fontFamily, setFontFamily] = useState("sans-serif");
+    const { theme } = useTheme();
+    const [fontSize, setFontSize] = useState<number | null>(null);
+    const [fontColor, setFontColor] = useState<string | null>(null);
+    const [fontFamily, setFontFamily] = useState<string | null>(null);
 
     useEffect(() => {
         const savedSize = localStorage.getItem("fontSize");
         const savedColor = localStorage.getItem("fontColor");
         const savedFamily = localStorage.getItem("fontFamily");
 
-        if (savedSize) setFontSize(parseInt(savedSize));
-        if (savedColor) setFontColor(savedColor);
-        if (savedFamily) setFontFamily(savedFamily);
+        setFontSize(savedSize ? parseInt(savedSize) : 16);
+        setFontColor(savedColor ?? "default");
+        setFontFamily(savedFamily ?? "sans-serif");
     }, []);
 
     useEffect(() => {
+        if (fontSize === null || fontColor === null || fontFamily === null) return;
+
         const root = document.documentElement;
 
         root.style.setProperty("--user-font-size", `${fontSize}px`);
@@ -32,54 +37,158 @@ export default function Texto() {
             root.style.setProperty("--user-font-color", userColor);
             localStorage.setItem("fontColor", userColor);
         }
-    }, [fontSize, fontColor, fontFamily]);
+    }, [fontSize, fontColor, fontFamily, theme]);
 
+    if (fontSize === null || fontColor === null || fontFamily === null) return null;
+
+    const resetToDefault = () => {
+        setFontSize(16);
+        setFontColor("default");
+        setFontFamily("sans-serif");
+        localStorage.removeItem("fontSize");
+        localStorage.removeItem("fontColor");
+        localStorage.removeItem("fontFamily");
+    };
+
+    const colorOptions = [
+        {
+            label: "Cor do tema",
+            value: "default",
+            icon: theme === "dark" ? <FaMoon /> : <FaSun />,
+            style: {
+                border: "2px solid var(--user-font-color)",
+                backgroundColor: "transparent",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: "1.2rem",
+            },
+        },
+        { label: "Preto", value: "#000000", style: { backgroundColor: "#000000" } },
+        { label: "Branco", value: "#ffffff", style: { backgroundColor: "#ffffff" } },
+        { label: "Vermelho", value: "#ff0000", style: { backgroundColor: "#ff0000" } },
+        { label: "Verde", value: "#00ff00", style: { backgroundColor: "#00ff00" } },
+        { label: "Azul", value: "#0000ff", style: { backgroundColor: "#0000ff" } },
+        { label: "Roxo", value: "#800080", style: { backgroundColor: "#800080" } },
+        { label: "Laranja", value: "#ff6600", style: { backgroundColor: "#ff6600" } },
+        { label: "Cinza", value: "#666666", style: { backgroundColor: "#666666" } },
+        {
+            label: "Modo Daltônico",
+            value: "#ffcc00",
+            style: {
+                backgroundColor: "#ffcc00",
+                border: "2px dashed #333",
+            },
+        },
+    ];
 
     return (
-        <div className="texto-panel">
-            <h1>Texto</h1>
+        <div style={{
+            maxWidth: "600px",
+            margin: "2rem auto",
+            padding: "2rem",
+            backgroundColor: "var(--card-bg)",
+            borderRadius: "12px",
+            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+            color: "var(--user-font-color)"
+        }}>
+            <h1 style={{ textAlign: "center", marginBottom: "2rem" }}>🎨 Configurações de Texto</h1>
 
-            <p>
-                <button onClick={() => setFontSize((s) => Math.min(s + 1, 48))}>
-                    Aumentar fonte
-                </button>
-            </p>
+            <div style={{ marginBottom: "2rem" }}>
+                <label style={{ fontWeight: 600, fontSize: "1rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                    <FaTextHeight />
+                    Tamanho da fonte:
+                </label>
+                <div style={{ display: "flex", gap: "1rem", alignItems: "center", marginTop: "0.5rem" }}>
+                    <button onClick={() => setFontSize(Math.max(fontSize - 1, 10))} style={buttonStyle}>
+                        <FaMinus />
+                    </button>
+                    <span style={{ fontWeight: "bold" }}>{fontSize}px</span>
+                    <button onClick={() => setFontSize(Math.min(fontSize + 1, 48))} style={buttonStyle}>
+                        <FaPlus />
+                    </button>
+                </div>
+            </div>
 
-            <p>
-                <button onClick={() => setFontSize((s) => Math.max(s - 1, 10))}>
-                    Diminuir fonte
-                </button>
-            </p>
+            <div style={{ marginBottom: "2rem" }}>
+                <label style={{ fontWeight: 600, fontSize: "1rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                    <FaPalette />
+                    Cor do texto:
+                </label>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem", marginTop: "0.5rem" }}>
+                    {colorOptions.map(({ label, value, style, icon }) => (
+                        <button
+                            key={value}
+                            onClick={() => setFontColor(value)}
+                            title={label}
+                            style={{
+                                width: "40px",
+                                height: "40px",
+                                borderRadius: "6px",
+                                cursor: "pointer",
+                                border: value === fontColor ? "3px solid var(--user-font-color)" : "none",
+                                ...style
+                            }}
+                        >
+                            {icon}
+                        </button>
+                    ))}
+                </div>
+            </div>
 
-            <p>
-                Alterar cor do texto:
-                <select
-                    value={fontColor}
-                    onChange={(e) => setFontColor(e.target.value)}
-                    style={{ marginLeft: "0.5rem" }}
-                >
-                    <option value="default">Cor do tema</option>
-                    <option value="#000000">Preto</option>
-                    <option value="#ffffff">Branco</option>
-                    <option value="#ff0000">Vermelho</option>
-                    <option value="#00ff00">Verde</option>
-                    <option value="#0000ff">Azul</option>
-                </select>
-            </p>
-
-            <p>
-                Alterar fonte:
+            <div style={{ marginBottom: "2rem" }}>
+                <label style={{ fontWeight: 600, fontSize: "1rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                    <FaFont />
+                    Tipo de fonte:
+                </label>
                 <select
                     value={fontFamily}
                     onChange={(e) => setFontFamily(e.target.value)}
-                    style={{ marginLeft: "0.5rem" }}
+                    style={{
+                        padding: "0.5rem",
+                        borderRadius: "6px",
+                        border: "1px solid #ccc",
+                        backgroundColor: "var(--bg-color)",
+                        color: "var(--user-font-color)",
+                        fontSize: "1rem",
+                        cursor: "pointer",
+                        marginTop: "0.5rem"
+                    }}
                 >
                     <option value="sans-serif">Sans-serif</option>
                     <option value="serif">Serif</option>
                     <option value="monospace">Monospace</option>
                     <option value="cursive">Cursive</option>
                 </select>
-            </p>
+            </div>
+
+            <div style={{ textAlign: "center" }}>
+                <button onClick={resetToDefault} style={{
+                    padding: "0.6rem 1.2rem",
+                    fontSize: "1rem",
+                    borderRadius: "999px",
+                    border: "none",
+                    backgroundColor: "#0077ff",
+                    color: "#fff",
+                    cursor: "pointer",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "0.5rem"
+                }}>
+                    <FaUndo />
+                    Redefinir para padrão
+                </button>
+            </div>
         </div>
     );
 }
+
+const buttonStyle = {
+    padding: "0.5rem 1rem",
+    fontSize: "1rem",
+    borderRadius: "6px",
+    border: "none",
+    backgroundColor: "var(--card-bg)",
+    color: "var(--user-font-color)",
+    cursor: "pointer",
+};
