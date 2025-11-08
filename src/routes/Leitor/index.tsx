@@ -86,17 +86,16 @@ export default function Leitor() {
     try {
       if (ouvindo) {
         recognitionRef.current.stop();
+        setOuvindo(false);
       } else {
-        textoFinalRef.current = "";
-        textoTempRef.current = "";
-        setTexto("");
         recognitionRef.current.start();
+        setOuvindo(true);
       }
-      setOuvindo(!ouvindo);
     } catch (error: any) {
       console.error("Erro ao alternar reconhecimento:", error);
     }
   };
+
 
   const limparTexto = () => {
     setTexto("");
