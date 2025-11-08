@@ -25,7 +25,14 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     document.body.classList.remove('theme-light', 'theme-dark');
     document.body.classList.add(`theme-${theme}`);
+
+    const userColor = localStorage.getItem("fontColor");
+    if (!userColor || userColor === "default") {
+      const themeColor = getComputedStyle(document.body).getPropertyValue("--text-color").trim();
+      document.documentElement.style.setProperty("--user-font-color", themeColor);
+    }
   }, [theme]);
+
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
