@@ -12,6 +12,7 @@ export default function Footer() {
           <Link to="/leitor">Leitor</Link>
           <Link to="/libras">Libras</Link>
           <Link to="/guias">Guias</Link>
+          <Link to="/integrantes">Grupo</Link>
         </nav>
       </div>
     </footer>
