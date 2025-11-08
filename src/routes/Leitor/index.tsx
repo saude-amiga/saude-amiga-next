@@ -6,6 +6,8 @@ export default function Leitor() {
   const [ouvindo, setOuvindo] = useState(false);
   const [suporte, setSuporte] = useState(true);
   const recognitionRef = useRef<SpeechRecognition | null>(null);
+  const textoFinalRef = useRef("");
+  const textoTempRef = useRef("");
 
   useEffect(() => {
     const SpeechRecognition =
@@ -22,13 +24,23 @@ export default function Leitor() {
     recognition.continuous = true;
 
     recognition.onresult = (event) => {
-      let novoTexto = texto;
+      let textoFinal = textoFinalRef.current;
+      let textoTemp = "";
+
       for (let i = event.resultIndex; i < event.results.length; i++) {
         const result = event.results[i];
         const transcrito = result[0].transcript;
-        novoTexto += " " + transcrito;
+
+        if (result.isFinal) {
+          textoFinal += " " + transcrito;
+        } else {
+          textoTemp += " " + transcrito;
+        }
       }
-      setTexto(novoTexto.trim());
+
+      textoFinalRef.current = textoFinal.trim();
+      textoTempRef.current = textoTemp.trim();
+      setTexto((textoFinalRef.current + " " + textoTempRef.current).trim());
     };
 
     recognition.onerror = (event) => {
@@ -75,6 +87,8 @@ export default function Leitor() {
 
   const limparTexto = () => {
     setTexto("");
+    textoFinalRef.current = "";
+    textoTempRef.current = "";
   };
 
   return (
@@ -100,7 +114,10 @@ export default function Leitor() {
 
       <textarea
         value={texto}
-        onChange={(e) => setTexto(e.target.value)}
+        onChange={(e) => {
+          setTexto(e.target.value);
+          textoFinalRef.current = e.target.value;
+        }}
         placeholder="Fale ou digite algo para ser lido..."
         rows={6}
         style={{
