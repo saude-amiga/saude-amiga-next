@@ -10,7 +10,7 @@ export default function Guias() {
         <button className="px-4 py-2 bg-purple-600 text-white rounded">Botão 5</button>
       </div>
 
-      <div className="flex-grow flex justify-center items-center">
+      <div className="grow flex justify-center items-center">
         <span className="text-9xl">🎯</span>
       </div>
     </div>
