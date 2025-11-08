@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useTheme } from "../../contexts/ThemeContext";
+import logo_saude from "../../img/icones/logo-saude-amiga.png"
 
 export default function Header() {
     const [menuOpen, setMenuOpen] = useState(false);
@@ -9,7 +10,7 @@ export default function Header() {
     return (
         <header className="header">
             <div className="header-container">
-                <h1 className="logo">Saúde Amiga</h1>
+                <img src={logo_saude} alt="Logo da Saúde Amiga" className="w-35 h-auto" />
 
                 <button
                     className="menu-toggle"
