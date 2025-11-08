@@ -1,4 +1,9 @@
+import { useEffect } from "react";
+
 export default function Libras() {
+  useEffect(() => {
+    document.title = "Libras";
+  }, []);
   return (
     <div
       style={{

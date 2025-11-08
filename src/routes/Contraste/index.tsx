@@ -1,7 +1,12 @@
+import { useEffect } from 'react';
 import { useTheme } from '../../contexts/ThemeContext';
 
 const Contraste = () => {
   const { theme, toggleTheme } = useTheme();
+
+  useEffect(() => {
+    document.title = "Contraste";
+  }, []);
 
   return (
     <div style={{ padding: '2rem' }}>

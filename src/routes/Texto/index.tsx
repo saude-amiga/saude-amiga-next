@@ -3,6 +3,10 @@ import { FaPlus, FaMinus, FaPalette, FaFont, FaTextHeight, FaSun, FaMoon, FaUndo
 import { useTheme } from "../../contexts/ThemeContext";
 
 export default function Texto() {
+    useEffect(() => {
+        document.title = "Configurações de Texto";
+    }, []);
+
     const { theme } = useTheme();
     const [fontSize, setFontSize] = useState<number | null>(null);
     const [fontColor, setFontColor] = useState<string | null>(null);

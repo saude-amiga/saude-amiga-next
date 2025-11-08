@@ -1,6 +1,9 @@
 import { useRef, useState, useEffect } from "react";
 
 export default function Guias() {
+  useEffect(() => {
+    document.title = "Guias Visuais";
+  }, []);
   const emojiRef = useRef<HTMLSpanElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const botao5Ref = useRef<HTMLButtonElement>(null);

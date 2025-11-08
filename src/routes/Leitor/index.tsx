@@ -11,6 +11,10 @@ declare global {
 type SpeechRecognition = any;
 
 export default function Leitor() {
+
+  useEffect(() => {
+    document.title = "Leitor";
+  }, []);
   const [texto, setTexto] = useState("");
   const [ouvindo, setOuvindo] = useState(false);
   const [suporte, setSuporte] = useState(true);
