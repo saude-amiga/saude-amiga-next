@@ -12,6 +12,7 @@ import Libras from './routes/Libras/index.tsx'
 import { ThemeProvider } from './contexts/ThemeContext.tsx'
 import { applyUserTextSettings } from './utils/applyUserTextSettings.ts'
 import Guias from './routes/Guias/index.tsx'
+import Integrantes from './routes/Integrantes/index.tsx'
 
 applyUserTextSettings();
 
@@ -22,7 +23,8 @@ const router = createBrowserRouter([
     {path:"/texto", element:<Texto/>},
     {path:"/leitor", element:<Leitor/>},
     {path:"/libras", element:<Libras/>},
-    {path:"/guias", element:<Guias/>}
+    {path:"/guias", element:<Guias/>},
+    {path:"/integrantes", element:<Integrantes/>}
   ]}
 ])
 
