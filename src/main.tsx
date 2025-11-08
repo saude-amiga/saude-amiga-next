@@ -1,4 +1,4 @@
-import { StrictMode } from 'react'
+import { StrictMode, useEffect } from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App.tsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
@@ -10,6 +10,9 @@ import Texto from './routes/Texto/index.tsx'
 import Leitor from './routes/Leitor/index.tsx'
 import Libras from './routes/Libras/index.tsx'
 import { ThemeProvider } from './contexts/ThemeContext.tsx'
+import { applyUserTextSettings } from './utils/applyUserTextSettings.ts'
+
+applyUserTextSettings();
 
 const router = createBrowserRouter([
   {path:"/", element:<App/>, errorElement:<Error/>, children:[
@@ -20,6 +23,7 @@ const router = createBrowserRouter([
     {path:"/libras", element:<Libras/>}
   ]}
 ])
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ThemeProvider>
