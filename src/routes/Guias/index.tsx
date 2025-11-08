@@ -7,6 +7,7 @@ export default function Guias() {
   const [mostrarPing, setMostrarPing] = useState(false);
   const [mostrarBlur, setMostrarBlur] = useState(false);
   const [mostrarBorda, setMostrarBorda] = useState(false);
+  const [mostrarExplosao, setMostrarExplosao] = useState(false);
 
   useEffect(() => {
     if (emojiRef.current && containerRef.current) {
@@ -19,31 +20,27 @@ export default function Guias() {
         height: emojiRect.height,
       });
     }
-  }, [mostrarPing, mostrarBlur, mostrarBorda]);
+  }, [mostrarPing, mostrarBlur, mostrarBorda, mostrarExplosao]);
+
+  const particulas = Array.from({ length: 16 });
+  const botaoBase = "px-4 py-2 rounded w-40 text-center cursor-pointer hover:brightness-110";
 
   return (
     <div ref={containerRef} className="h-screen flex flex-col relative overflow-hidden">
       <div className="flex flex-col sm:flex-row justify-center items-center gap-4 pt-4">
-        <button
-          className="px-4 py-2 bg-blue-600 text-white rounded w-40 text-center"
-          onClick={() => setMostrarPing(true)}
-        >
+        <button className={`${botaoBase} bg-blue-600 text-white`} onClick={() => setMostrarPing(true)}>
           Botão 1
         </button>
-        <button
-          className="px-4 py-2 bg-green-600 text-white rounded w-40 text-center"
-          onClick={() => setMostrarBlur(true)}
-        >
+        <button className={`${botaoBase} bg-green-600 text-white`} onClick={() => setMostrarBlur(true)}>
           Botão 2
         </button>
-        <button
-          className="px-4 py-2 bg-red-600 text-white rounded w-40 text-center"
-          onClick={() => setMostrarBorda(true)}
-        >
+        <button className={`${botaoBase} bg-red-600 text-white`} onClick={() => setMostrarBorda(true)}>
           Botão 3
         </button>
-        <button className="px-4 py-2 bg-yellow-500 text-black rounded w-40 text-center">Botão 4</button>
-        <button className="px-4 py-2 bg-purple-600 text-white rounded w-40 text-center">Botão 5</button>
+        <button className={`${botaoBase} bg-yellow-500 text-black`} onClick={() => setMostrarExplosao(true)}>
+          Botão 4
+        </button>
+        <button className={`${botaoBase} bg-purple-600 text-white`}>Botão 5</button>
       </div>
 
       <div className="grow flex justify-center items-center z-10">
@@ -54,6 +51,7 @@ export default function Guias() {
             setMostrarPing(false);
             setMostrarBlur(false);
             setMostrarBorda(false);
+            setMostrarExplosao(false);
           }}
         >
           🎯
@@ -103,6 +101,24 @@ export default function Guias() {
           }}
         />
       )}
+
+      {mostrarExplosao && posicao &&
+        particulas.map((_, i) => {
+          const angle = (i / particulas.length) * 2 * Math.PI;
+          const radius = 140;
+          const x = Math.cos(angle) * radius;
+          const y = Math.sin(angle) * radius;
+          return (
+            <div
+              key={i}
+              className="absolute w-5 h-5 rounded-full bg-yellow-400 animate-ping pointer-events-none z-0"
+              style={{
+                top: posicao.top + posicao.height / 2 - 10 + y,
+                left: posicao.left + posicao.width / 2 - 10 + x,
+              }}
+            />
+          );
+        })}
     </div>
   );
 }
