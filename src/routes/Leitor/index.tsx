@@ -130,9 +130,30 @@ export default function Leitor() {
           borderRadius: "8px",
           border: "1px solid #ccc",
           resize: "none",
-          marginBottom: "1rem",
+          marginBottom: "0.5rem",
         }}
       />
+
+      {texto && (
+        <div
+          style={{
+            width: "100%",
+            padding: "1rem",
+            fontSize: "var(--user-font-size)",
+            fontFamily: "var(--user-font-family)",
+            color: "var(--user-font-color)",
+            backgroundColor: "var(--bg-color)",
+            borderRadius: "8px",
+            border: "1px solid #ccc",
+            resize: "none",
+            marginBottom: "1rem",
+            whiteSpace: "pre-wrap",
+            textAlign: "left",
+          }}
+        >
+          {texto}
+        </div>
+      )}
 
       <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
         <button
@@ -187,7 +208,7 @@ export default function Leitor() {
       </div>
 
       {!suporte && (
-        <p style={{ marginTop: "1rem"}}>
+        <p style={{ marginTop: "1rem" }}>
           Seu navegador não suporta reconhecimento de voz.
         </p>
       )}
