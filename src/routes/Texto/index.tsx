@@ -104,13 +104,48 @@ export default function Texto() {
                     Tamanho da fonte:
                 </label>
                 <div style={{ display: "flex", gap: "1rem", alignItems: "center", marginTop: "0.5rem" }}>
-                    <button onClick={() => setFontSize(Math.max(fontSize - 1, 10))} style={buttonStyle}>
+                    <button
+                        onClick={() => setFontSize(Math.max(fontSize - 1, 10))}
+                        style={{
+                            ...buttonStyle,
+                            backgroundColor: "#ff4d4d",
+                            color: "#fff",
+                            transition: "transform 0.2s ease, box-shadow 0.2s ease",
+                        }}
+                        onMouseEnter={(e) => {
+                            e.currentTarget.style.transform = "scale(1.1)";
+                            e.currentTarget.style.boxShadow = "0 4px 8px rgba(0,0,0,0.3)";
+                        }}
+                        onMouseLeave={(e) => {
+                            e.currentTarget.style.transform = "scale(1)";
+                            e.currentTarget.style.boxShadow = "none";
+                        }}
+                    >
                         <FaMinus />
                     </button>
-                    <span style={{ fontWeight: "bold" }}>{fontSize}px</span>
-                    <button onClick={() => setFontSize(Math.min(fontSize + 1, 48))} style={buttonStyle}>
+
+                    <span style={{ fontWeight: "bold", fontSize: "1.1rem" }}>{fontSize}px</span>
+
+                    <button
+                        onClick={() => setFontSize(Math.min(fontSize + 1, 48))}
+                        style={{
+                            ...buttonStyle,
+                            backgroundColor: "#4CAF50",
+                            color: "#fff",
+                            transition: "transform 0.2s ease, box-shadow 0.2s ease",
+                        }}
+                        onMouseEnter={(e) => {
+                            e.currentTarget.style.transform = "scale(1.1)";
+                            e.currentTarget.style.boxShadow = "0 4px 8px rgba(0,0,0,0.3)";
+                        }}
+                        onMouseLeave={(e) => {
+                            e.currentTarget.style.transform = "scale(1)";
+                            e.currentTarget.style.boxShadow = "none";
+                        }}
+                    >
                         <FaPlus />
                     </button>
+
                 </div>
             </div>
 
