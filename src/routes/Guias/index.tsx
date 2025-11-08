@@ -8,7 +8,9 @@ export default function Guias() {
   const [posicaoBotao5, setPosicaoBotao5] = useState<{ top: number; left: number } | null>(null);
   const [mostrarPing, setMostrarPing] = useState(false);
   const [mostrarBlur, setMostrarBlur] = useState(false);
-  const [mostrarBorda, setMostrarBorda] = useState(false);
+  const [mostrarBorda1, setMostrarBorda1] = useState(false);
+  const [mostrarBorda2, setMostrarBorda2] = useState(false);
+  const [mostrarBorda3, setMostrarBorda3] = useState(false);
   const [mostrarExplosao, setMostrarExplosao] = useState(false);
   const [mostrarCaminho, setMostrarCaminho] = useState(false);
   const [bolinhasVisiveis, setBolinhasVisiveis] = useState<number[]>([]);
@@ -29,7 +31,7 @@ export default function Guias() {
         left: botaoRect.left - containerRect.left + botaoRect.width / 2,
       });
     }
-  }, [mostrarPing, mostrarBlur, mostrarBorda, mostrarExplosao, mostrarCaminho]);
+  }, [mostrarPing, mostrarBlur, mostrarBorda1, mostrarExplosao, mostrarCaminho]);
 
   const particulas = Array.from({ length: 16 });
   const caminho = Array.from({ length: 30 });
@@ -45,6 +47,14 @@ export default function Guias() {
     });
   };
 
+  const iniciarCircular = () => {
+    setMostrarBorda1(true);
+    setMostrarBorda2(false);
+    setMostrarBorda3(false);
+    setTimeout(() => setMostrarBorda2(true), 1000);
+    setTimeout(() => setMostrarBorda3(true), 2000);
+  };
+
   return (
     <div ref={containerRef} className="h-screen flex flex-col relative overflow-hidden">
       <div className="flex flex-col sm:flex-row justify-center items-center gap-4 pt-4">
@@ -54,7 +64,7 @@ export default function Guias() {
         <button className={`${botaoBase} bg-green-600 text-white`} onClick={() => setMostrarBlur(true)}>
           Focar
         </button>
-        <button className={`${botaoBase} bg-red-600 text-white`} onClick={() => setMostrarBorda(true)}>
+        <button className={`${botaoBase} bg-red-600 text-white`} onClick={iniciarCircular}>
           Circular
         </button>
         <button className={`${botaoBase} bg-yellow-500 text-black`} onClick={() => setMostrarExplosao(true)}>
@@ -72,7 +82,9 @@ export default function Guias() {
           onClick={() => {
             setMostrarPing(false);
             setMostrarBlur(false);
-            setMostrarBorda(false);
+            setMostrarBorda1(false);
+            setMostrarBorda2(false);
+            setMostrarBorda3(false);
             setMostrarExplosao(false);
             setMostrarCaminho(false);
             setBolinhasVisiveis([]);
@@ -112,18 +124,48 @@ export default function Guias() {
         </>
       )}
 
-      {mostrarBorda && posicaoEmoji && (
-        <div
-          className="absolute z-10 pointer-events-none"
-          style={{
-            top: posicaoEmoji.top - 140,
-            left: posicaoEmoji.left - 140,
-            width: 280,
-            height: 280,
-            borderRadius: "50%",
-            border: "10px solid red",
-          }}
-        />
+      {posicaoEmoji && (
+        <>
+          {mostrarBorda1 && (
+            <div
+              className="absolute z-10 pointer-events-none"
+              style={{
+                top: posicaoEmoji.top - 140,
+                left: posicaoEmoji.left - 140,
+                width: 280,
+                height: 280,
+                borderRadius: "50%",
+                border: "10px solid red",
+              }}
+            />
+          )}
+          {mostrarBorda2 && (
+            <div
+              className="absolute z-10 pointer-events-none"
+              style={{
+                top: posicaoEmoji.top - 170,
+                left: posicaoEmoji.left - 170,
+                width: 340,
+                height: 340,
+                borderRadius: "50%",
+                border: "10px solid red",
+              }}
+            />
+          )}
+          {mostrarBorda3 && (
+            <div
+              className="absolute z-10 pointer-events-none"
+              style={{
+                top: posicaoEmoji.top - 200,
+                left: posicaoEmoji.left - 200,
+                width: 400,
+                height: 400,
+                borderRadius: "50%",
+                border: "10px solid red",
+              }}
+            />
+          )}
+        </>
       )}
 
       {mostrarExplosao && posicaoEmoji &&
