@@ -1,6 +1,15 @@
 import { useState, useRef, useEffect } from "react";
 import { FaVolumeUp, FaMicrophone, FaTimes } from "react-icons/fa";
 
+declare global {
+  interface Window {
+    SpeechRecognition: any;
+    webkitSpeechRecognition: any;
+  }
+}
+
+type SpeechRecognition = any;
+
 export default function Leitor() {
   const [texto, setTexto] = useState("");
   const [ouvindo, setOuvindo] = useState(false);
@@ -23,7 +32,7 @@ export default function Leitor() {
     recognition.interimResults = true;
     recognition.continuous = true;
 
-    recognition.onresult = (event) => {
+    recognition.onresult = (event: any) => {
       let textoFinal = textoFinalRef.current;
       let textoTemp = "";
 
@@ -43,7 +52,7 @@ export default function Leitor() {
       setTexto((textoFinalRef.current + " " + textoTempRef.current).trim());
     };
 
-    recognition.onerror = (event) => {
+    recognition.onerror = (event: any) => {
       console.error("Erro no reconhecimento:", event.error);
     };
 
@@ -75,13 +84,7 @@ export default function Leitor() {
         setOuvindo(true);
       }
     } catch (error: any) {
-      if (error.name === "InvalidStateError") {
-        console.warn("Reconhecimento já está ativo.");
-      } else if (error.name === "AbortError") {
-        console.warn("Reconhecimento foi abortado.");
-      } else {
-        console.error("Erro ao alternar reconhecimento:", error);
-      }
+      console.error("Erro ao alternar reconhecimento:", error);
     }
   };
 
@@ -114,10 +117,7 @@ export default function Leitor() {
 
       <textarea
         value={texto}
-        onChange={(e) => {
-          setTexto(e.target.value);
-          textoFinalRef.current = e.target.value;
-        }}
+        onChange={(e) => setTexto(e.target.value)}
         placeholder="Fale ou digite algo para ser lido..."
         rows={6}
         style={{
@@ -187,7 +187,7 @@ export default function Leitor() {
       </div>
 
       {!suporte && (
-        <p style={{ marginTop: "1rem", color: "#cc0000" }}>
+        <p style={{ marginTop: "1rem"}}>
           Seu navegador não suporta reconhecimento de voz.
         </p>
       )}
