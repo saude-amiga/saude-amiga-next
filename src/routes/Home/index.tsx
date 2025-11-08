@@ -40,7 +40,7 @@ export default function Home() {
         </li>
         <li>
           <Link to="/guias" style={estiloLink}>
-            📘 Guias de Acessibilidade
+            📘 Exemplos de Guias Visuais
           </Link>
         </li>
       </ul>
