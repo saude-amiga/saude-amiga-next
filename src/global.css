@@ -133,7 +133,7 @@ main {
 .nav a {
   text-decoration: none;
   color: var(--user-font-color);
-  font-weight: 500;
+  font-weight: bold;
 }
 
 @media (max-width: 768px) {
