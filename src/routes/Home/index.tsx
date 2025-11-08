@@ -69,9 +69,11 @@ const estiloLink = {
   display: "block",
   padding: "0.8rem 1.2rem",
   backgroundColor: "#0077ff",
-  color: "#fff",
+  color: "var(--user-font-color)",
   borderRadius: "8px",
   textDecoration: "none",
   fontWeight: "bold",
+  fontSize: "var(--user-font-size)",
+  fontFamily: "var(--user-font-family)",
   transition: "transform 0.2s ease, box-shadow 0.2s ease",
 };
